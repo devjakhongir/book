@@ -1,0 +1,27 @@
+
+
+
+{
+    "id": "021d83ac-6c6e-438c-a625-814bc1c1651e",
+    "name": "Detektiv",
+    "books": [
+        {
+            "id": "6afd5ef7-4155-44ba-96a2-9e7e249811de",
+            "name": "Shaytanat",
+            "price": 26500,
+            "descriptoin": "Йигирма беш йил муқаддам «Шайтанат»нинг биринчи китоби мухлислар эътиборига ҳавола этилган эди."
+        },
+        {
+            "id": "88783375-83ac-4375-925c-aa10c40a84bd",
+            "name": "Sherlok Xolms",
+            "price": 55000,
+            "descriptoin": "Ser Artur Konan Doyl (1859 - 1930) Tomonidan yaratilgan detektiv kitob ajoyib aql-zakovati bilan ajralib turadi."
+        }
+    ]
+}
+
+
+
+
+
+

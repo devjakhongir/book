@@ -129,7 +129,7 @@ func GetListBook(db *sql.DB, req models.GetListBookRequest) (models.GetListBookR
 	return resp, nil
 }
 
-func UpdateBook(db *sql.DB, book models.Book) error {
+func UpdateBook(db *sql.DB, book models.Book) (int64, error) {
 
 	query := `
 		UPDATE 
@@ -142,7 +142,7 @@ func UpdateBook(db *sql.DB, book models.Book) error {
 		WHERE id = $1
 	`
 
-	_, err := db.Exec(query,
+	result, err := db.Exec(query,
 		book.Id,
 		book.Name,
 		book.Price,
@@ -150,10 +150,16 @@ func UpdateBook(db *sql.DB, book models.Book) error {
 	)
 
 	if err != nil {
-		return err
+		return 0, err
 	}
 
-	return nil
+	rowsAffected, err := result.RowsAffected()
+
+	if err != nil {
+		return 0, err
+	}
+
+	return rowsAffected, nil
 }
 
 func DeleteBook(db *sql.DB, id string) error {

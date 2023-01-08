@@ -3,9 +3,10 @@ package handler
 import (
 	"app/models"
 	"app/storage"
+	"errors"
+	"fmt"
 	"log"
 	"net/http"
-	"fmt"
 	"strconv"
 
 	"github.com/gin-gonic/gin"
@@ -50,7 +51,7 @@ func (h *Handler) GetByIDBook(c *gin.Context) {
 		return
 	}
 
-	c.JSON(http.StatusCreated, res)
+	c.JSON(http.StatusOK, res)
 }
 
 func (h *Handler) GetListBook(c *gin.Context) {
@@ -91,10 +92,10 @@ func (h *Handler) GetListBook(c *gin.Context) {
 		return
 	}
 
-	c.JSON(http.StatusCreated, res)
+	c.JSON(http.StatusOK, res)
 }
 
-func (h *HandlerV1) Update(c *gin.Context) {
+func (h *Handler) UpdateBook(c *gin.Context) {
 
 	var (
 		book models.Book
@@ -122,18 +123,17 @@ func (h *HandlerV1) Update(c *gin.Context) {
 		return
 	}
 
-	resp, err := storage.GetByIdBook(h.db, book.Id)
+	resp, err := storage.GetByIdBook(h.db, models.BookPrimeryKey{Id: book.Id})
 	if err != nil {
 		log.Printf("error whiling get by id: %v\n", err)
 		c.JSON(http.StatusInternalServerError, errors.New("error whiling get by id").Error())
 		return
 	}
 
-	c.JSON(http.StatusOK, resp)
+	c.JSON(http.StatusAccepted, resp)
 }
 
-
-func (h *HandlerV1) DeleteBook(c *gin.Context) {
+func (h *Handler) DeleteBook(c *gin.Context) {
 
 	id := c.Param("id")
 

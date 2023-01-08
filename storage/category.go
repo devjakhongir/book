@@ -12,7 +12,6 @@ func InsertCategory(db *sql.DB, category models.CreateCategory) (string, error) 
 
 	var (
 		id = uuid.New().String()
-		
 	)
 
 	query := `
@@ -20,14 +19,12 @@ func InsertCategory(db *sql.DB, category models.CreateCategory) (string, error) 
 			id,
 			name,
 			updated_at
-		) VALUES ($1, $2,   now())
+		) VALUES ($1, $2, now())
 	`
 
 	_, err := db.Exec(query,
 		id,
 		category.Name,
-
-	
 	)
 
 	if err != nil {
@@ -81,7 +78,7 @@ func GetListCategory(db *sql.DB, req models.GetListCategoryRequest) (models.GetL
 			name,
 			created_at,
 			updated_at
-		FROM books
+		FROM category
 	`
 
 	if req.Offset > 0 {
@@ -120,7 +117,7 @@ func GetListCategory(db *sql.DB, req models.GetListCategoryRequest) (models.GetL
 	return resp, nil
 }
 
-func UpdateCategory(db *sql.DB, category models.Category) error {
+func UpdateCategory(db *sql.DB, category models.UpdateCategory) (int64, error) {
 
 	query := `
 		UPDATE 
@@ -131,20 +128,25 @@ func UpdateCategory(db *sql.DB, category models.Category) error {
 		WHERE id = $1
 	`
 
-	_, err := db.Exec(query,
+	result, err := db.Exec(query,
 		category.Id,
 		category.Name,
 	)
 
 	if err != nil {
-		return err
+		return 0, err
 	}
 
-	return nil
+	rowsAffected, err := result.RowsAffected()
+	if err != nil {
+		return 0, err
+	}
+
+	return rowsAffected, nil
 }
 
 func DeleteCategory(db *sql.DB, id string) error {
-	_, err := db.Exec("DELETE FROM books WHERE id = $1", id)
+	_, err := db.Exec("DELETE FROM category WHERE id = $1", id)
 
 	if err != nil {
 		return err

@@ -10,7 +10,7 @@ CREATE TABLE books (
 
 CREATE TABLE category (
     id UUID PRIMARY KEY,
-    name VARCHAR NOT NULL
+    name VARCHAR NOT NULL,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     updated_at TIMESTAMP
 );
